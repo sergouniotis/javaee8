@@ -1,0 +1,36 @@
+version: '3'
+services:
+  webappdb:
+    container_name: webappdb
+    image: postgres:9.5
+    ports:
+    - 5432:5432
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=1234
+    - POSTGRES_DB=postgres
+    volumes:
+    - ./initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      webapp_net:
+        aliases:
+        - webappdb
+  webapp:
+    container_name: webapp
+    image: tns/webapp:latest
+    ports:
+    - 8080:8080
+    - 9000:9000
+    - 8787:8787
+    - 9999:9999
+    - 9990:9990
+    - 8000:8000
+    depends_on:
+    - webappdb
+    env_file:
+    - dev.env
+    networks:
+    - webapp_net
+networks:
+  webapp_net:
+    driver: bridge

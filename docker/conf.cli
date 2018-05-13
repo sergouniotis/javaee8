@@ -1,0 +1,44 @@
+connect 127.0.0.1
+ 
+batch
+
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-headers-header/:add(header-name=Access-Control-Allow-Headers,header-value="X-requested-with, Content-Type, Origin, Authorization, Accept")
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-origin/:add(header-name=Access-Control-Allow-Origin,header-value=*)
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-methods/:add(header-name=Access-Control-Allow-Methods,header-value="GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
+/subsystem=undertow/configuration=filter/response-header=cors-expose-headers/:add(header-name=Access-Control-Expose-Headers,header-value="Flavors, MinTemp, MaxTemp, MinEthanol, MaxEthanol, MinAcidity, MaxAcidity, MinDuration, MaxDuration")
+
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-headers-header/:add(priority=1)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-origin/:add(priority=1)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-methods/:add(priority=1)
+
+module add --name=org.postgres --resources=/opt/postgresql.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
+data-source add --jndi-name=java:jboss/webapp/jdbc/ds --name=WebappDBPool --connection-url=jdbc:postgresql://webappdb:5432/webapp --driver-name=postgres --user-name=webapp --password=1234
+
+/subsystem=logging/file-handler=cocoa-log:add(file={"path"=>"webapp.log","relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=cocoa-log:change-log-level(level="DEBUG")
+/subsystem=logging/file-handler=cocoa-log:write-attribute(name="append", value="true")
+/subsystem=logging/file-handler=cocoa-log:write-attribute(name="autoflush", value="false")
+/subsystem=logging/file-handler=cocoa-log:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+
+/subsystem=logging/logger=com.tns.webapp:add
+/subsystem=logging/logger=com.tns.webapp:write-attribute(name="level", value="DEBUG")
+#/subsystem=logging/logger=com.tns.webapp:assign-handler(name="webapp-log")
+
+#the following 2 lines is for the static files server
+#/subsystem=undertow/configuration=handler/file=dashboard:add(path="${jboss.home.dir}/dashboard", directory-listing="false")
+#/subsystem=undertow/server=default-server/host=default-host/location=dashboard:add(handler=dashboard)
+
+ /subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "com.fasterxml.jackson.datatype.jackson-datatype-jsr310","slot" => "main"}])
+  
+#create the queue
+#/subsystem=messaging-activemq/server=default/jms-queue=OEDesignQueue:add(entries=[java:/jms/queue/OEDesignQueue])
+
+/subsystem=security/security-domain=jwt-security:add(cache-type=default)
+/subsystem=security/security-domain=jwt-security/authentication=classic :add
+/subsystem=security/security-domain=jwt-security/authentication=classic/login-module=JwtLoginModule:add(code=com.tns.webapp.web.auth.JwtLoginModule,flag=required)
+
+deploy /opt/webapp.war
+
+
+run-batch

@@ -3,45 +3,41 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 
-<!-- 	<context-param>
-		<param-name>liquibase.changelog</param-name>
-		<param-value>db/db.changelog-master.xml</param-value>
-	</context-param>
+	<!-- <context-param> <param-name>liquibase.changelog</param-name> <param-value>db/db.changelog-master.xml</param-value> 
+		</context-param> <context-param> <param-name>liquibase.datasource</param-name> 
+		<param-value>java:jboss/cocoa/jdbc/ds</param-value> </context-param> <context-param> 
+		<param-name>liquibase.onerror.fail</param-name> <param-value>true</param-value> 
+		</context-param> <context-param> <param-name>liquibase.contexts</param-name> 
+		<param-value>production</param-value> </context-param> <listener> <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class> 
+		</listener> -->
+
+	<listener>
+		<listener-class>com.tns.webapp.web.listeners.FlywayListener
+		</listener-class>
+	</listener>
 
 	<context-param>
-		<param-name>liquibase.datasource</param-name>
-		<param-value>java:jboss/cocoa/jdbc/ds</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>liquibase.onerror.fail</param-name>
+		<param-name>resteasy.role.based.security</param-name>
 		<param-value>true</param-value>
 	</context-param>
 
-	<context-param>
-		<param-name>liquibase.contexts</param-name>
-		<param-value>production</param-value>
-	</context-param>
-
-	<listener>
-		<listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
-	</listener> -->
-	
-	<listener>
-		<listener-class>com.tns.webapp.web.listeners.FlywayListener</listener-class>
-	</listener>
-	
-    <context-param>
-        <param-name>resteasy.role.based.security</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
-    <security-constraint>
-        <display-name>JwtSecurityConstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>all</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-    </security-constraint>	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>default</realm-name>
+	</login-config>
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
 
 </web-app>

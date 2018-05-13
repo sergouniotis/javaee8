@@ -2,7 +2,7 @@
       
 
 function wait_db() {
- sleep 10
+ sleep 5
 }
   
 

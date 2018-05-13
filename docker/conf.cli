@@ -32,13 +32,14 @@ data-source add --jndi-name=java:jboss/webapp/jdbc/ds --name=WebappDBPool --conn
  /subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "com.fasterxml.jackson.datatype.jackson-datatype-jsr310","slot" => "main"}])
   
 #create the queue
-#/subsystem=messaging-activemq/server=default/jms-queue=OEDesignQueue:add(entries=[java:/jms/queue/OEDesignQueue])
+/subsystem=messaging-activemq/server=default/jms-queue=OEDesignQueue:add(entries=[java:/jms/queue/OEDesignQueue])
 
 /subsystem=security/security-domain=jwt-security:add(cache-type=default)
 /subsystem=security/security-domain=jwt-security/authentication=classic :add
 /subsystem=security/security-domain=jwt-security/authentication=classic/login-module=JwtLoginModule:add(code=com.tns.webapp.web.auth.JwtLoginModule,flag=required)
 
-deploy /opt/webapp.war
+reload
 
+deploy /opt/webapp.war
 
 run-batch

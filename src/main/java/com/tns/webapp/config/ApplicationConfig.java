@@ -3,7 +3,7 @@ package com.tns.webapp.config;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("v1/api")
+@ApplicationPath("api/v1")
 public class ApplicationConfig extends Application {
 
 }

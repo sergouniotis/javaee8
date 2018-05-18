@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	version="3.1">
-
-	<!-- <context-param> <param-name>liquibase.changelog</param-name> <param-value>db/db.changelog-master.xml</param-value> 
-		</context-param> <context-param> <param-name>liquibase.datasource</param-name> 
-		<param-value>java:jboss/cocoa/jdbc/ds</param-value> </context-param> <context-param> 
-		<param-name>liquibase.onerror.fail</param-name> <param-value>true</param-value> 
-		</context-param> <context-param> <param-name>liquibase.contexts</param-name> 
-		<param-value>production</param-value> </context-param> <listener> <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class> 
-		</listener> -->
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 
 	<listener>
-		<listener-class>com.tns.webapp.web.listeners.FlywayListener
-		</listener-class>
+		<listener-class>com.tns.webapp.web.listeners.FlywayListener</listener-class>
 	</listener>
 
 	<context-param>
@@ -21,23 +11,31 @@
 		<param-value>true</param-value>
 	</context-param>
 
+	<servlet>
+		<servlet-name>OpenApi</servlet-name>
+		<servlet-class>io.swagger.v3.jaxrs2.integration.OpenApiServlet</servlet-class>
+
+		<init-param>
+			<param-name>openApi.configuration.resourcePackages</param-name>
+			<param-value>com.tns.webapp.resources</param-value>
+		</init-param>
+
+		<!-- alternatively include a file openapi.json or openapi.yaml / openapi-configuration.json or openapi-configuration.yaml in classpath -->
+
+		<!-- alternatively include a configuration file in the location specified below -->
+		<!-- <init-param> <param-name>openApi.configuration.location</param-name> <param-value>/openapi.yaml</param-value> </init-param> -->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>OpenApi</servlet-name>
+		<url-pattern>/openapi/*</url-pattern>
+	</servlet-mapping>
+
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>All</web-resource-name>
-			<url-pattern>/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
+			<web-resource-name>auth</web-resource-name>
+			<url-pattern>/api/v1/*</url-pattern>
 		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
 	</security-constraint>
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>default</realm-name>
-	</login-config>
-	<security-role>
-		<role-name>admin</role-name>
-	</security-role>
 
 </web-app>

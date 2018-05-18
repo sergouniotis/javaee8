@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jboss.security.SimpleGroup;
+import org.jboss.security.SimplePrincipal;
 
 @SuppressWarnings( "UnusedDeclaration" ) // used by the container
 public class JwtLoginModule implements LoginModule {

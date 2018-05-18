@@ -31,6 +31,17 @@ services:
     - dev.env
     networks:
     - webapp_net
+  swagger-ui:
+    container_name: swagger-1
+    image: swaggerapi/swagger-ui
+    ports:
+    - 4040:8080
+    environment:
+    - API_URL=http://localhost:8080/webapp/openapi
+    depends_on:
+    - webapp
+    networks:
+    - webapp_net    
 networks:
   webapp_net:
     driver: bridge

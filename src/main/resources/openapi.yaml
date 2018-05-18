@@ -1,0 +1,28 @@
+openAPI:
+  servers:
+  - url: '{protocol}://localhost:8080/webapp/api/v1'
+    variables:
+      protocol:
+        enum:
+        - http
+        - https
+        default: http
+  info:
+    version: '1.0'
+    title: Katalyst api
+    description: This is the katalyst api.
+    termsOfService: http://swagger.io/terms/
+    contact:
+      email: apiteam@swagger.io
+    license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0.html
+  components:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+  security:
+  - bearerAuth: [
+      ]

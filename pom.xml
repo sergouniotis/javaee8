@@ -17,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<postgres.jdbc.driver.version>9.4-1201-jdbc41</postgres.jdbc.driver.version>
 		<org.flywaydb.flyway-core.version>4.0.3</org.flywaydb.flyway-core.version>
+		<ee.api.version>7.0</ee.api.version>
 	</properties>
 
 
@@ -93,8 +94,10 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>8.0</version>
+			<version>${ee.api.version}</version>
+			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -107,17 +110,37 @@
 			<artifactId>flyway-core</artifactId>
 			<version>${org.flywaydb.flyway-core.version}</version>
 		</dependency>
-		
-		
+
+
 		<!-- security -->
-			
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.5.1</version>
-        </dependency>
-        
-        		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.5.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-security -->
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-security</artifactId>
+			<version>12.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-jaxrs2 -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-jaxrs2-servlet-initializer -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
 
 	</dependencies>
 

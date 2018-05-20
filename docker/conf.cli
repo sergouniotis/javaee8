@@ -15,13 +15,15 @@ module add --name=org.postgres --resources=/opt/postgresql.jar --dependencies=ja
 /subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
 data-source add --jndi-name=java:jboss/webapp/jdbc/ds --name=WebappDBPool --connection-url=jdbc:postgresql://webappdb:5432/webapp --driver-name=postgres --user-name=webapp --password=1234
 
-/subsystem=logging/file-handler=cocoa-log:add(file={"path"=>"webapp.log","relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=cocoa-log:change-log-level(level="DEBUG")
-/subsystem=logging/file-handler=cocoa-log:write-attribute(name="append", value="true")
-/subsystem=logging/file-handler=cocoa-log:write-attribute(name="autoflush", value="false")
-/subsystem=logging/file-handler=cocoa-log:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+/subsystem=logging/file-handler=webapp-log:add(file={"path"=>"webapp.log","relative-to"=>"jboss.server.log.dir"}, level="DEBUG", append="true", autoflush="true")
+#/subsystem=logging/file-handler=webapp-log:change-log-level(level="DEBUG")
+#/subsystem=logging/file-handler=webapp-log:write-attribute(name="append", value="true")
+#/subsystem=logging/file-handler=webapp-log:write-attribute(name="autoflush", value="false")
+/subsystem=logging/file-handler=webapp-log:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
 
-/subsystem=logging/logger=com.tns.webapp:add
+
+
+/subsystem=logging/logger=com.tns.webapp:add(use-parent-handlers=false,handlers=["webapp-log"])
 /subsystem=logging/logger=com.tns.webapp:write-attribute(name="level", value="DEBUG")
 #/subsystem=logging/logger=com.tns.webapp:assign-handler(name="webapp-log")
 

@@ -1,0 +1,17 @@
+package org.drools.example.cdi.cdiexample
+
+import com.tns.webapp.domain.Item
+
+global java.io.PrintStream out
+
+rule "rule 1" salience 10 when
+    m : Item( )
+then
+    out.println( m.getId() + ": " +  m.getTitle() );
+end
+
+rule "rule 2" when
+    Item( title == "Hello, HAL. Do you read me, HAL?" )
+then
+    insert( new Item("Dave. I read you." ) );
+end

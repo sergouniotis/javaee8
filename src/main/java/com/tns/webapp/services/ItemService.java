@@ -11,4 +11,6 @@ public interface ItemService {
 	
 	List<Item> findll();
 
+	Item save(Item item);
+
 }

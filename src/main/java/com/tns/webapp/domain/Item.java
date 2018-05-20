@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.tns.webapp.validation.ValidItem;
+
 @Entity
 @Table(name = "items")
+@ValidItem
 public class Item implements Serializable {
 
 	@Id
@@ -22,6 +25,15 @@ public class Item implements Serializable {
 
 	@Column(name = "title")
 	private String title;
+
+	public Item() {
+		super();
+	}
+
+	public Item(String title) {
+		this();
+		this.title = title;
+	}
 
 	public Long getId() {
 		return id;

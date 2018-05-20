@@ -28,6 +28,7 @@ public class ValidItemValidator implements ConstraintValidator<ValidItem, Item> 
 			return true;
 		}
 
+		kSession.setGlobal("out", System.out);
 		kSession.insert(value);
 		int result = kSession.fireAllRules();
 

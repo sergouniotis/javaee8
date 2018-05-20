@@ -1,4 +1,4 @@
-package org.drools.example.cdi.cdiexample
+package com.tns.webapp.rules
 
 import com.tns.webapp.domain.Item
 

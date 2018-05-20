@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidItemValidator.class)
 public @interface ValidItem {
-	String message() default "{com.tns.webapp.validation.valid.item}";
+	String message() default "{com.tns.webapp.validation.constraints.ValidItem.message}";
 
 	Class<?>[] groups() default {};
 

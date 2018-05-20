@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+<kmodule xmlns="http://www.drools.org/xsd/kmodule" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.drools.org/xsd/kmodule https://raw.githubusercontent.com/kiegroup/droolsjbpm-knowledge/7.7.0.Final/kie-api/src/main/resources/org/kie/api/kmodule.xsd">
 
 	<kbase name="cdiexample">
 		<ksession name="ksession1" />

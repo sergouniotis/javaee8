@@ -1,10 +1,8 @@
 package com.tns.webapp.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,8 +23,8 @@ public class ItemServiceImpl implements ItemService {
 	private ItemRepository itemRepository;
 
 	@Override
-	public List<Item> findll() {
-		return new ArrayList<Item>(itemRepository.findAll());
+	public List<Item> findAll(int pageNumber, int pageSize) {
+		return itemRepository.findAll(pageNumber, pageSize);
 	}
 
 	@Override

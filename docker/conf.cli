@@ -21,8 +21,8 @@ data-source add --jndi-name=java:jboss/webapp/jdbc/ds --name=WebappDBPool --conn
 #/subsystem=logging/file-handler=webapp-log:write-attribute(name="autoflush", value="false")
 /subsystem=logging/file-handler=webapp-log:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
 
-
-
+/subsystem=logging/logger=org.jboss.resteasy:add(use-parent-handlers=true)
+/subsystem=logging/logger=org.jboss.as.jaxrs:add(use-parent-handlers=true)
 /subsystem=logging/logger=com.tns.webapp:add(use-parent-handlers=false,handlers=["webapp-log"])
 /subsystem=logging/logger=com.tns.webapp:write-attribute(name="level", value="DEBUG")
 #/subsystem=logging/logger=com.tns.webapp:assign-handler(name="webapp-log")

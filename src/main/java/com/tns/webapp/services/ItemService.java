@@ -8,8 +8,8 @@ import com.tns.webapp.domain.Item;
 
 @Local
 public interface ItemService {
-	
-	List<Item> findll();
+
+	List<Item> findAll(int pageNumber, int pageSize);
 
 	Item save(Item item);
 

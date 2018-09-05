@@ -10,7 +10,7 @@
 		<param-name>resteasy.role.based.security</param-name>
 		<param-value>true</param-value>
 	</context-param>
-
+	
 	<servlet>
 		<servlet-name>OpenApi</servlet-name>
 		<servlet-class>io.swagger.v3.jaxrs2.integration.OpenApiServlet</servlet-class>
@@ -20,10 +20,6 @@
 			<param-value>com.tns.webapp.resources</param-value>
 		</init-param>
 
-		<!-- alternatively include a file openapi.json or openapi.yaml / openapi-configuration.json or openapi-configuration.yaml in classpath -->
-
-		<!-- alternatively include a configuration file in the location specified below -->
-		<!-- <init-param> <param-name>openApi.configuration.location</param-name> <param-value>/openapi.yaml</param-value> </init-param> -->
 	</servlet>
 
 	<servlet-mapping>
@@ -35,6 +31,10 @@
 		<web-resource-collection>
 			<web-resource-name>auth</web-resource-name>
 			<url-pattern>/api/v1/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>			
 		</web-resource-collection>
 	</security-constraint>
 

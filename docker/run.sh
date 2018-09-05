@@ -1,14 +1,22 @@
-#!/bin/bash
-      
+#!/bin/sh
 
-function wait_db() {
- sleep 5
+JBOSS_CLI=$JBOSS_HOME/bin/jboss-cli.sh
+JBOSS_MODE=${1:-"standalone"}
+JBOSS_CONFIG=${2:-"$JBOSS_MODE.xml"}
+
+wait_for_server() {
+  until `$JBOSS_CLI -c "ls /deployment" &> /dev/null`; do
+    sleep 1
+  done
 }
-  
 
-#echo "=> Waiting for the database to boot and database to be setup"
-wait_db
+echo "=> Starting WildFly server"
+$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0 -c standalone-full.xml > /dev/stdout &
 
-#exec ${JBOSS_HOME}/bin/standalone.sh -b 0.0.0.0
+echo "=> Waiting for the server to boot"
+wait_for_server
 
-exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+echo "=> Executing the commands"
+$JBOSS_CLI -c --file=/conf.cli
+
+exec "$@"
